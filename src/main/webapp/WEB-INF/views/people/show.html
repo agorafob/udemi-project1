@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Person</title>
+</head>
+<body>
+
+<h2>Here is a person</h2>
+
+<p th:text="${person.getName()}+','+${person.getYear()}">VALUE</p>
+
+<div th:if="${hasBooks}">
+    <p>Books:</p>
+    <div th:each="bookPerson:${booksWithOwners}">
+        <div th:if="${bookPerson.getPerson_id()==person.getPerson_id()}">
+            <div th:each="book:${books}">
+                <div th:if="${book.getBook_id()==bookPerson.getBook_id()}">
+                    <p th:href="@{/books/{book_id}(book_id=${bookPerson.getBook_id()})}"
+                       th:text="${book.getName()}+','+${book.getAuthor()}+','+${book.getYear()}">VALUE</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:unless="${hasBooks}">
+    <p>Person has no books</p>
+</div>
+
+<br>
+<hr>
+<a th:href="@{/people/{person_id}/edit(person_id=${person.getPerson_id()})}">Edit</a>
+<br><br>
+<form th:method="DELETE" th:action="@{/people/{person_id}(person_id=${person.getPerson_id()})}">
+    <input type="submit" value="Delete">
+</form>
+<br>
+<a href="/people">Back</a>
+</body>
+</html>
